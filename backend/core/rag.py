@@ -1,7 +1,7 @@
 import os
 from langchain_community.document_loaders import PyPDFLoader, TextLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_community.embeddings.fastembed import FastEmbedEmbeddings
 from pinecone import Pinecone
 from langchain_groq import ChatGroq
 from langchain_core.prompts import ChatPromptTemplate
@@ -10,8 +10,9 @@ from langchain_core.documents import Document
 PINECONE_INDEX_NAME = "docintel-rag"
 
 def get_embeddings():
-    # Use sentence-transformers (384 dimensions)
-    return HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
+    # Use FastEmbed (ONNX) to save massive amounts of RAM instead of PyTorch
+    # Default model BAAI/bge-small-en-v1.5 outputs 384 dimensions (matches our Pinecone index)
+    return FastEmbedEmbeddings()
 
 def process_document(file_path: str) -> int:
     # 1. Load Document

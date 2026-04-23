@@ -3,11 +3,10 @@ uvicorn
 python-multipart
 langchain
 langchain-groq
-langchain-huggingface
 langchain-community
 langchain-text-splitters
 pinecone
 pypdf
-sentence-transformers
+fastembed
 pydantic
 python-dotenv
