@@ -9,10 +9,15 @@ from langchain_core.documents import Document
 
 PINECONE_INDEX_NAME = "docintel-rag"
 
+# Load the embedding model ONCE at module import time (server startup).
+# Reusing this singleton avoids 20-30s re-initialization on every request.
+_embeddings = None
+
 def get_embeddings():
-    # Use FastEmbed (ONNX) to save massive amounts of RAM instead of PyTorch
-    # Default model BAAI/bge-small-en-v1.5 outputs 384 dimensions (matches our Pinecone index)
-    return FastEmbedEmbeddings()
+    global _embeddings
+    if _embeddings is None:
+        _embeddings = FastEmbedEmbeddings()
+    return _embeddings
 
 def process_document(file_path: str) -> int:
     # 1. Load Document
