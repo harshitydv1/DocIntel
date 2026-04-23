@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+python-multipart
+langchain
+langchain-groq
+pinecone
+pypdf
+sentence-transformers
+pydantic
+python-dotenv
