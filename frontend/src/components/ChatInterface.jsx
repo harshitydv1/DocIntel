@@ -20,6 +20,15 @@ export default function ChatInterface({ isReady }) {
     scrollToBottom();
   }, [messages]);
 
+  // When a document is deleted, isReady goes false — reset chat to welcome state
+  useEffect(() => {
+    if (!isReady) {
+      const welcome = [{ role: 'assistant', content: 'Hello! I am DocIntel. Upload a document and ask me anything about it!' }];
+      setMessages(welcome);
+      localStorage.removeItem('chatMessages');
+    }
+  }, [isReady]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!input.trim() || !isReady || isLoading) return;

@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react';
 
-export default function UploadSection({ onUploadSuccess }) {
+export default function UploadSection({ onUploadSuccess, onDeleteSuccess }) {
   const [isDragging, setIsDragging] = useState(false);
   const [file, setFile] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -66,6 +66,7 @@ export default function UploadSection({ onUploadSuccess }) {
         setUploadStatus('success');
         setMessage('Document deleted successfully.');
         localStorage.removeItem('uploadedFileName');
+        localStorage.removeItem('chatMessages'); // Clear chat before triggering remount
         setPersistedFileName(null);
         setFile(null);
         if (onDeleteSuccess) onDeleteSuccess();
